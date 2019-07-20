@@ -29,7 +29,7 @@ defmodule MotoSol.Devices.Device do
     allowed_locations = get_field(changeset, :allowed_locations)
     location = get_field(changeset, :location)
 
-    if location in allowed_locations or location == "undefined" do
+    if is_list(allowed_locations) and (location in allowed_locations or location == "undefined") do
       changeset
     else
       changeset

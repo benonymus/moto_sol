@@ -7,18 +7,17 @@ defmodule MotoSol.DevicesTest do
     alias MotoSol.Devices.Device
 
     @valid_attrs %{
-      allowed_locations: [],
-      location: "some location",
-      radio_alias: "some radio_alias",
+      allowed_locations: ["cph-1"],
+      alias: "some radio_alias",
       radio_id: 42
     }
     @update_attrs %{
-      allowed_locations: [],
-      location: "some updated location",
-      radio_alias: "some updated radio_alias",
+      allowed_locations: ["cph-1", "cph-2"],
+      location: "cph-2",
+      alias: "some updated radio_alias",
       radio_id: 43
     }
-    @invalid_attrs %{allowed_locations: nil, location: nil, radio_alias: nil, radio_id: nil}
+    @invalid_attrs %{allowed_locations: nil, location: nil, alias: nil, radio_id: nil}
 
     def device_fixture(attrs \\ %{}) do
       {:ok, device} =
@@ -34,11 +33,20 @@ defmodule MotoSol.DevicesTest do
       assert Devices.get_device!(device.id) == device
     end
 
+    test "get_device_by_radio_id/1 returns the device with given radio_id" do
+      device = device_fixture()
+      assert Devices.get_device_by_radio_id(device.radio_id) == device
+    end
+
+    test "get_device_by_radio_id_with_location/1 returns the device with given radio_id if it has a location" do
+      device = device_fixture(%{location: "cph-1"})
+      assert Devices.get_device_by_radio_id_with_location(device.radio_id) == device
+    end
+
     test "create_device/1 with valid data creates a device" do
       assert {:ok, %Device{} = device} = Devices.create_device(@valid_attrs)
-      assert device.allowed_locations == []
-      assert device.location == "some location"
-      assert device.radio_alias == "some radio_alias"
+      assert device.allowed_locations == ["cph-1"]
+      assert device.alias == "some radio_alias"
       assert device.radio_id == 42
     end
 
@@ -49,9 +57,9 @@ defmodule MotoSol.DevicesTest do
     test "update_device/2 with valid data updates the device" do
       device = device_fixture()
       assert {:ok, %Device{} = device} = Devices.update_device(device, @update_attrs)
-      assert device.allowed_locations == []
-      assert device.location == "some updated location"
-      assert device.radio_alias == "some updated radio_alias"
+      assert device.allowed_locations == ["cph-1", "cph-2"]
+      assert device.location == "cph-2"
+      assert device.alias == "some updated radio_alias"
       assert device.radio_id == 43
     end
 

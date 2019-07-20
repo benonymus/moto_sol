@@ -7,7 +7,7 @@ defmodule MotoSolWeb.DeviceController do
 
   action_fallback MotoSolWeb.FallbackController
 
-  def create(conn, %{"radio_id" => radio_id}) do
+  def create(conn, %{"radio_id" => _radio_id}) do
     with {:ok, %Device{} = device} <- Devices.create_device(conn.params) do
       conn
       |> put_status(200)

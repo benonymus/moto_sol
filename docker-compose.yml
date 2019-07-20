@@ -9,6 +9,7 @@ services:
       - MIX_ENV=dev
       - PORT=4000
       - DATABASE_URL=ecto://postgres:postgres@postgres/moto_sol_project_dev
+      - DATABASE_URL_TEST=ecto://postgres:postgres@postgres/moto_sol_project_test
     volumes:
       - .:/app
     ports:

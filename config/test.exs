@@ -11,8 +11,6 @@ config :logger, level: :warn
 
 # Configure your database
 config :moto_sol, MotoSol.Repo,
-  username: "postgres",
-  password: "postgres",
-  database: "moto_sol_test",
-  hostname: "localhost",
+  adapter: Ecto.Adapters.Postgres,
+  url: System.get_env("DATABASE_URL_TEST"),
   pool: Ecto.Adapters.SQL.Sandbox
